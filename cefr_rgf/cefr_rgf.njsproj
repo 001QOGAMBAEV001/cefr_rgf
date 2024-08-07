@@ -1,0 +1,72 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>cefr_rgf</Name>
+    <RootNamespace>cefr_rgf</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>4d07c4c6-295b-4425-9c9e-3ef547a3a03e</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>server.js</StartupFile>
+    <StartWebBrowser>False</StartWebBrowser>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <StartWebBrowser>false</StartWebBrowser>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include=".env" />
+    <Content Include="server.js" />
+    <Content Include="package.json" />
+    <Content Include="README.md" />
+    <Content Include="src\app.js" />
+    <Content Include="src\config\database.js" />
+    <Content Include="src\config\swagger.js" />
+    <Content Include="src\controllers\authController.js" />
+    <Content Include="src\controllers\employeeController.js" />
+    <Content Include="src\controllers\facultyController.js" />
+    <Content Include="src\controllers\groupController.js" />
+    <Content Include="src\controllers\learningController.js" />
+    <Content Include="src\controllers\notificationController.js" />
+    <Content Include="src\controllers\streamController.js" />
+    <Content Include="src\controllers\testController.js" />
+    <Content Include="src\controllers\universityController.js" />
+    <Content Include="src\controllers\userController.js" />
+    <Content Include="src\middleware\auth.js" />
+    <Content Include="src\middleware\error.js" />
+    <Content Include="src\models\LearningMaterial.js" />
+    <Content Include="src\models\Notification.js" />
+    <Content Include="src\models\Stream.js" />
+    <Content Include="src\models\Test.js" />
+    <Content Include="src\models\User.js" />
+    <Content Include="src\routes\authRoutes.js" />
+    <Content Include="src\routes\learningRoutes.js" />
+    <Content Include="src\routes\notificationRoutes.js" />
+    <Content Include="src\routes\streamRoutes.js" />
+    <Content Include="src\routes\testRoutes.js" />
+    <Content Include="src\services\twitchService.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\" />
+    <Folder Include="src\config\" />
+    <Folder Include="src\controllers\" />
+    <Folder Include="src\middleware\" />
+    <Folder Include="src\models\" />
+    <Folder Include="src\services\" />
+    <Folder Include="src\routes\" />
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
+</Project>
