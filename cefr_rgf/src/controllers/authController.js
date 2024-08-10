@@ -44,23 +44,53 @@ exports.register = async (req, res, next) => {
 };
 
 // Foydalanuvchini tizimga kiritish
-exports.login = async (req, res) => {
+exports.login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
+
         if (!email || !password) {
-            return res.status(400).json({ message: 'Iltimos, email va parolni kiriting' });
+            return res.status(400).json({
+                success: false,
+                error: 'Iltimos, email va parolni kiriting'
+            });
         }
+
         const user = await User.findOne({ email }).select('+password');
         if (!user) {
-            return res.status(401).json({ message: 'Noto\'g\'ri ma\'lumotlar' });
+            return res.status(401).json({
+                success: false,
+                error: 'Noto\'g\'ri email yoki parol'
+            });
         }
+
         const isMatch = await user.matchPassword(password);
         if (!isMatch) {
-            return res.status(401).json({ message: 'Noto\'g\'ri ma\'lumotlar' });
+            return res.status(401).json({
+                success: false,
+                error: 'Noto\'g\'ri email yoki parol'
+            });
         }
-        sendTokenResponse(user, 200, res);
+
+        try {
+            const token = user.getSignedJwtToken();
+            console.log('Generated token:', token);
+            res.status(200).json({
+                success: true,
+                token
+            });
+        } catch (tokenError) {
+            console.error('Token generation error:', tokenError);
+            return res.status(500).json({
+                success: false,
+                error: 'Token yaratishda xatolik yuz berdi'
+            });
+        }
     } catch (error) {
-        res.status(400).json({ success: false, error: error.message });
+        console.error('Login error:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Serverda xatolik yuz berdi'
+        });
     }
 };
 
