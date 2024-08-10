@@ -2,18 +2,44 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 
 // Foydalanuvchini ro'yxatdan o'tkazish
-exports.register = async (req, res) => {
+exports.register = async (req, res, next) => {
     try {
         const { name, email, password, role } = req.body;
+
+        // Foydalanuvchi mavjudligini tekshirish
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({
+                success: false,
+                error: "Bu email manzili bilan foydalanuvchi allaqachon ro'yxatdan o'tgan"
+            });
+        }
+
         const user = await User.create({
             name,
             email,
             password,
             role
         });
-        sendTokenResponse(user, 201, res);
+
+        const token = user.getSignedJwtToken();
+        console.log('Generated token:', token);
+
+        // Token strukturasini tekshirish
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        console.log('Decoded token:', decodedToken);
+
+        res.status(201).json({
+            success: true,
+            token,
+            expiresIn: process.env.JWT_EXPIRE
+        });
     } catch (error) {
-        res.status(400).json({ success: false, error: error.message });
+        console.error('Registration error:', error);
+        res.status(400).json({
+            success: false,
+            error: error.message
+        });
     }
 };
 

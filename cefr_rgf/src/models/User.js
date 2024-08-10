@@ -46,9 +46,27 @@ UserSchema.methods.matchPassword = async function (enteredPassword) {
 };
 
 UserSchema.methods.getSignedJwtToken = function () {
-    return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRE,
-    });
+    try {
+        console.log('JWT_SECRET:', process.env.JWT_SECRET);
+        console.log('JWT_EXPIRE:', process.env.JWT_EXPIRE);
+
+        const token = jwt.sign(
+            { id: this._id },
+            process.env.JWT_SECRET,
+            { expiresIn: process.env.JWT_EXPIRE || '30d' }
+        );
+
+        console.log('Generated token:', token);
+
+        // Token strukturasini tekshirish
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        console.log('Decoded token:', decodedToken);
+
+        return token;
+    } catch (error) {
+        console.error('JWT creation error:', error);
+        throw error;
+    }
 };
 
 module.exports = mongoose.model('User', UserSchema);
