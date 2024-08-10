@@ -8,6 +8,9 @@ const {
 } = require('../controllers/streamController');
 const { protect, authorize } = require('../middleware/auth');
 
+
+
+
 const router = express.Router();
 
 /**
@@ -63,7 +66,7 @@ router.get('/', (req, res, next) => {
  *             schema:
  *               $ref: '#/components/schemas/Stream'
  */
-router.post('/', protect, authorize('teacher'), createStream);
+router.post('/', protect, authorize('teacher', "admin"), createStream);
 
 /**
  * @swagger

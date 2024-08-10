@@ -32,9 +32,9 @@ const StreamSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
-    group: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Group',
+    groupName: {
+        type: String,
+        required: [true, 'Iltimos, guruh nomini kiriting'],
     },
     status: {
         type: String,

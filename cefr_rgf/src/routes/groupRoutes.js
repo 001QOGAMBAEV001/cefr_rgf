@@ -1,10 +1,14 @@
 const express = require('express');
-const { createGroup, getAllGroups, getOneGroup } = require('../controllers/groupController');
 const { protect, authorize } = require('../middleware/auth');
+const {
+    createGroup,
+    getAllGroups,
+    getOneGroup
+} = require('../controllers/groupController');
 
 const router = express.Router();
 
-router.post('/', protect, authorize('admin', 'teacher'), createGroup);
+router.post('/create', protect, authorize('admin','teacher'), createGroup);
 router.get('/', getAllGroups);
 router.get('/:id', getOneGroup);
 

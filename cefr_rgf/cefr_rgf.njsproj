@@ -47,18 +47,24 @@
     <Content Include="src\controllers\userController.js" />
     <Content Include="src\middleware\auth.js" />
     <Content Include="src\middleware\error.js" />
+    <Content Include="src\models\Faculty.js" />
     <Content Include="src\models\Group.js" />
     <Content Include="src\models\LearningMaterial.js" />
     <Content Include="src\models\Notification.js" />
     <Content Include="src\models\Stream.js" />
     <Content Include="src\models\Test.js" />
+    <Content Include="src\models\University.js" />
     <Content Include="src\models\User.js" />
     <Content Include="src\routes\authRoutes.js" />
+    <Content Include="src\routes\employeeRoutes.js" />
+    <Content Include="src\routes\facultyRoutes.js" />
     <Content Include="src\routes\groupRoutes.js" />
     <Content Include="src\routes\learningRoutes.js" />
     <Content Include="src\routes\notificationRoutes.js" />
     <Content Include="src\routes\streamRoutes.js" />
     <Content Include="src\routes\testRoutes.js" />
+    <Content Include="src\routes\universityRoutes.js" />
+    <Content Include="src\routes\userRoutes.js" />
     <Content Include="src\services\twitchService.js" />
   </ItemGroup>
   <ItemGroup>

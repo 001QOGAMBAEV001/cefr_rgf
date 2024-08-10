@@ -14,13 +14,29 @@ exports.createVideo = async (req, res) => {
     }
 };
 
+exports.getStreams = async (req, res) => {
+    try {
+        const streams = await Stream.find().populate('teacher', 'name').populate('employee', 'name');
+        res.status(200).json({
+            success: true,
+            count: streams.length,
+            data: streams
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: 'Translyatsiyalarni olishda xatolik yuz berdi'
+        });
+    }
+};
+
 // Yangi translyatsiya yaratish
 exports.createStream = async (req, res) => {
     try {
-        const { title, description, twitchUrl, startTime, endTime, groupId } = req.body;
+        const { title, description, twitchUrl, startTime, endTime, groupName } = req.body;
 
-        // Guruhni tekshirish
-        const group = await Group.findById(groupId);
+        // Guruhni nomi bo'yicha tekshirish
+        const group = await Group.findOne({ name: groupName });
         if (!group) {
             return res.status(404).json({
                 success: false,
@@ -35,7 +51,8 @@ exports.createStream = async (req, res) => {
             startTime,
             endTime,
             teacher: req.user.id,
-            group: groupId
+            employee: req.user.id,  // employee maydonini qo'shdik
+            groupName: group.name
         });
 
         // O'qituvchilarga xabarnoma yuborish
@@ -144,7 +161,9 @@ exports.deleteStream = async (req, res) => {
 // Bitta translyatsiyani olish
 exports.getStream = async (req, res) => {
     try {
-        const stream = await Stream.findById(req.params.id).populate('teacher', 'name').populate('group', 'name');
+        const stream = await Stream.findById(req.params.id)
+            .populate('teacher', 'name')
+            .populate('employee', 'name'); // 'group' o'rniga 'employee' ishlatildi
 
         if (!stream) {
             return res.status(404).json({
@@ -158,9 +177,17 @@ exports.getStream = async (req, res) => {
             data: stream,
         });
     } catch (error) {
-        res.status(400).json({
+        // Agar ID formati noto'g'ri bo'lsa
+        if (error.kind === 'ObjectId') {
+            return res.status(400).json({
+                success: false,
+                error: 'Noto\'g\'ri ID formati',
+            });
+        }
+
+        res.status(500).json({
             success: false,
-            error: error.message,
+            error: 'Server xatosi',
         });
     }
 };

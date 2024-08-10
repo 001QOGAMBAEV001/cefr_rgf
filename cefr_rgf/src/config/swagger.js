@@ -9,15 +9,37 @@ const swaggerDefinition = {
     },
     servers: [
         {
-            url: 'http://localhost:3002/api',
+            url: 'https://localhost:3000',
+            description: 'Development server',
+        },
+        {
+            url: 'https://localhost:3002',
+            description: 'Development server',
+        },
+        {
+            url: 'https://kepket.uz/api/',
             description: 'Development server',
         },
     ],
+
+    components: {
+        securitySchemes: {
+            BearerAuth: {
+                type: 'http',
+                scheme: 'bearer',
+                bearerFormat: 'JWT',
+            },
+        },
+    },
+    security: [{
+        BearerAuth: [],
+    }],
 };
 
 const options = {
     swaggerDefinition,
     apis: ['./src/routes/*.js'],
+    apiss: ['./src/models/*.js'],
 };
 
 const swaggerSpec = swaggerJSDoc(options);

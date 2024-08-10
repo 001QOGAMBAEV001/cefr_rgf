@@ -38,11 +38,6 @@ const GroupSchema = new mongoose.Schema({
         trim: true,
         maxlength: [50, 'Guruh nomi 50 belgidan oshmasligi kerak']
     },
-    faculty: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Faculty',
-        required: [true, 'Fakultet ko\'rsatilishi shart']
-    },
     students: [{
         type: mongoose.Schema.ObjectId,
         ref: 'User'

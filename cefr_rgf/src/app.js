@@ -17,6 +17,25 @@ const learningRoutes = require('./routes/learningRoutes');
 const testRoutes = require('./routes/testRoutes');
 
 const groupRoutes = require('./routes/groupRoutes');
+/////////////////////////////////////////////////////////////
+const employeeRoutes = require('./routes/employeeRoutes');
+const universityRoutes = require('./routes/universityRoutes');
+const facultyRoutes = require('./routes/facultyRoutes');
+const userRoutes = require('./routes/userRoutes');
+
+
+
+//app.use('/api/admin', employeeRoutes);
+//app.use('/api/univer', universityRoutes);
+//app.use('/api/faculty', facultyRoutes);
+//app.use('/api/user', userRoutes);
+//app.use('/api/video', streamRoutes);
+//app.use('/api', authRoutes);
+/////////////////////////////////////////////////////////////
+
+
+
+
 
 const app = express();
 
