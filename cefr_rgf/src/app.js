@@ -16,6 +16,8 @@ const notificationRoutes = require('./routes/notificationRoutes');
 const learningRoutes = require('./routes/learningRoutes');
 const testRoutes = require('./routes/testRoutes');
 
+const groupRoutes = require('./routes/groupRoutes');
+
 const app = express();
 
 // Middleware
@@ -50,6 +52,8 @@ app.use('/api/streams', streamRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/learning', learningRoutes);
 app.use('/api/tests', testRoutes);
+app.use('/api/groups', groupRoutes);
+
 
 // 404 xatosi uchun
 app.all('*', (req, res, next) => {

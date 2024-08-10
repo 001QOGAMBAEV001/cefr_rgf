@@ -47,12 +47,14 @@
     <Content Include="src\controllers\userController.js" />
     <Content Include="src\middleware\auth.js" />
     <Content Include="src\middleware\error.js" />
+    <Content Include="src\models\Group.js" />
     <Content Include="src\models\LearningMaterial.js" />
     <Content Include="src\models\Notification.js" />
     <Content Include="src\models\Stream.js" />
     <Content Include="src\models\Test.js" />
     <Content Include="src\models\User.js" />
     <Content Include="src\routes\authRoutes.js" />
+    <Content Include="src\routes\groupRoutes.js" />
     <Content Include="src\routes\learningRoutes.js" />
     <Content Include="src\routes\notificationRoutes.js" />
     <Content Include="src\routes\streamRoutes.js" />

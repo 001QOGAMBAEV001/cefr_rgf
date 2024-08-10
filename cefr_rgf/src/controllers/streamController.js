@@ -1,6 +1,7 @@
 const Stream = require('../models/Stream');
 const Notification = require('../models/Notification');
 const User = require('../models/User');
+const Group = require('../models/Group');
 
 // Video yaratish (mavjud funksiya)
 exports.createVideo = async (req, res) => {
@@ -16,26 +17,50 @@ exports.createVideo = async (req, res) => {
 // Yangi translyatsiya yaratish
 exports.createStream = async (req, res) => {
     try {
-        req.body.teacher = req.user.id;
-        const stream = await Stream.create(req.body);
+        const { title, description, twitchUrl, startTime, endTime, groupId } = req.body;
+
+        // Guruhni tekshirish
+        const group = await Group.findById(groupId);
+        if (!group) {
+            return res.status(404).json({
+                success: false,
+                error: 'Guruh topilmadi'
+            });
+        }
+
+        const stream = await Stream.create({
+            title,
+            description,
+            twitchUrl,
+            startTime,
+            endTime,
+            teacher: req.user.id,
+            group: groupId
+        });
 
         // O'qituvchilarga xabarnoma yuborish
-        const teachers = await User.find({ role: 'teacher', _id: { $ne: req.user.id } });
-        const notifications = teachers.map(teacher => ({
-            recipient: teacher._id,
-            content: `Yangi translyatsiya: "${stream.title}" ${stream.startTime} da boshlanadi.`,
-            type: 'new_stream',
-        }));
-        await Notification.insertMany(notifications);
+        try {
+            const teachers = await User.find({ role: 'teacher', _id: { $ne: req.user.id } });
+            const notifications = teachers.map(teacher => ({
+                recipient: teacher._id,
+                content: `Yangi translyatsiya: "${stream.title}" ${stream.startTime} da boshlanadi.`,
+                type: 'new_stream',
+            }));
+            await Notification.insertMany(notifications);
+        } catch (notificationError) {
+            console.error('Xabarnoma yuborishda xatolik:', notificationError);
+            // Xabarnoma yuborishdagi xatolik asosiy jarayonga ta'sir qilmasligi kerak
+        }
 
         res.status(201).json({
             success: true,
             data: stream,
         });
     } catch (error) {
+        console.error('Translyatsiya yaratishda xatolik:', error);
         res.status(400).json({
             success: false,
-            error: error.message,
+            error: error.message || 'Translyatsiya yaratishda xatolik yuz berdi'
         });
     }
 };
